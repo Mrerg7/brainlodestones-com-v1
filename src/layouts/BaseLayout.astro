@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+import StructuredData from '../components/StructuredData.astro';
+import { SITE_NAME, HERO_IMAGE_URL } from '../lib/constants';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = `${SITE_NAME} • Premium Domain for TMS Networks & Brain Health Platforms`,
+  description = 'Acquire brainlodestones.com — the premium plural .com domain for Transcranial Magnetic Stimulation networks, neurotechnology platforms, and multi-center brain health innovation. Instant authority in the growing TMS ecosystem.',
+  noindex = false,
+} = Astro.props;
+
+const canonical = Astro.url.href;
+const ogImage = HERO_IMAGE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="TMS domain, Transcranial Magnetic Stimulation, brain lodestones, neurotechnology domain, brain health platform, clinic network domain, premium .com domain" />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        <meta
+          name="robots"
+          content="index, follow, max-image-preview:large, max-snippet:-1"
+        />
+      )
+    }
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content={SITE_NAME} />
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:alt" content="brainlodestones.com — premium TMS network & brain health domain" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="brainlodestones.com" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://imagedelivery.net" />
+
+    <StructuredData />
+  </head>
+  <body class="bg-slate-950 text-slate-200 overflow-x-hidden antialiased">
+    <slot />
+    <script>
+      const nav = document.getElementById('nav');
+      if (nav) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+            nav.classList.add('nav-scrolled');
+          } else {
+            nav.classList.remove('nav-scrolled');
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

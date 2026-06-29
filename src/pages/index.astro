@@ -1,0 +1,897 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import {
+  HERO_IMAGE_URL,
+  TMS_IMAGE_URL,
+  LOGO_MOCK_URL,
+  acquisitionMailto,
+} from '../lib/constants';
+import { getCollection } from 'astro:content';
+
+const useCases = await getCollection('useCases');
+useCases.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout>
+  <Nav />
+
+  <main>
+    <!-- Hero Section -->
+    <header
+      class="hero-bg min-h-[100dvh] flex items-center relative pt-20"
+      style={`--hero-image-url: url(${HERO_IMAGE_URL});`}
+    >
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-20">
+        <div class="max-w-3xl">
+          <!-- Trust badge -->
+          <div
+            class="inline-flex items-center gap-x-2 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 mb-8"
+          >
+            <div class="flex -space-x-1">
+              <div class="w-5 h-5 bg-teal-400 rounded-full ring-2 ring-slate-950"></div>
+              <div class="w-5 h-5 bg-cyan-400 rounded-full ring-2 ring-slate-950"></div>
+            </div>
+            <span class="text-xs font-medium tracking-[0.5px] text-white/90"
+              >PREMIUM PLURAL &bull; NETWORK-READY &bull; HIGH-INTENT</span
+            >
+          </div>
+
+          <h1 class="text-6xl md:text-7xl lg:text-8xl font-display font-semibold tracking-tighter leading-[0.96] mb-6">
+            brainlodestones.com
+          </h1>
+
+          <p class="max-w-lg text-2xl md:text-3xl font-medium tracking-tight text-white mb-4">
+            The lodestones of brain stimulation leadership.
+          </p>
+
+          <p class="max-w-md text-lg text-slate-300 mb-10">
+            A powerful plural .com for TMS networks, multi-center clinics, neurotechnology
+            platforms, and the next generation of magnetic brain health innovation.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a
+              href="#acquire"
+              class="group inline-flex items-center justify-center gap-x-3 px-8 py-4 text-lg font-semibold rounded-3xl bg-teal-400 hover:bg-teal-300 active:bg-white transition-all text-slate-950 shadow-xl shadow-teal-950/50"
+            >
+              <span>Acquire This Domain</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 group-hover:translate-x-0.5 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.25"
+                  d="M14 5l7 7-7 7m-4-7h11"
+                />
+              </svg>
+            </a>
+            <a
+              href="#why"
+              class="inline-flex items-center justify-center gap-x-2 px-7 py-4 text-lg font-medium rounded-3xl border border-white/30 hover:bg-white/5 active:bg-white/10 transition-all"
+            >
+              Why it converts
+            </a>
+          </div>
+
+          <div class="mt-8 flex items-center gap-x-6 text-sm">
+            <div class="flex items-center gap-x-2 text-teal-400">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="3"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              <span class="font-medium">Ideal for networks &amp; platforms</span>
+            </div>
+            <div class="hidden sm:block w-px h-3.5 bg-white/30"></div>
+            <div class="text-slate-400 text-sm">Escrow-protected acquisition</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-10 left-1/2 hidden lg:block">
+        <div class="flex flex-col items-center gap-y-1 text-xs tracking-[1.5px] text-white/50">
+          <div>SCROLL TO EXPLORE</div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4 animate-bounce"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 14l-7 7m0 0l-7-7"
+            />
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- Trust / Market Stats Bar -->
+    <div class="border-b border-slate-800 bg-slate-900/60">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4 text-center md:text-left">
+          <div>
+            <div class="font-mono text-3xl font-semibold text-teal-400 stat-number">
+              $1.5B+
+            </div>
+            <div class="text-xs uppercase tracking-widest text-slate-400 mt-1">
+              TMS Market Size (2025–26)
+            </div>
+          </div>
+          <div>
+            <div class="font-mono text-3xl font-semibold text-teal-400 stat-number">
+              9–12.6%
+            </div>
+            <div class="text-xs uppercase tracking-widest text-slate-400 mt-1">
+              Projected CAGR through 2033
+            </div>
+          </div>
+          <div>
+            <div class="font-mono text-3xl font-semibold text-teal-400 stat-number">
+              50–65%
+            </div>
+            <div class="text-xs uppercase tracking-widest text-slate-400 mt-1">
+              Patient Response Rate
+            </div>
+          </div>
+          <div>
+            <div class="font-mono text-3xl font-semibold text-teal-400 stat-number">
+              30–40%
+            </div>
+            <div class="text-xs uppercase tracking-widest text-slate-400 mt-1">
+              Full Remission Rate
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Opportunity -->
+    <section id="opportunity" class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 pt-20 pb-16">
+      <div class="max-w-3xl mb-12">
+        <div class="uppercase text-teal-400 text-xs font-semibold tracking-[2px] mb-3">
+          THE MARKET MOMENT
+        </div>
+        <h2 class="section-header tracking-tighter">Multiple points of magnetic attraction.</h2>
+        <p class="mt-5 text-xl text-slate-300">
+          As TMS adoption accelerates across clinics, devices, and digital platforms, brands that
+          scale — networks, ecosystems, and platforms — need names that signal breadth, foundation,
+          and leadership. brainlodestones.com delivers exactly that.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="glass rounded-3xl p-8 benefit-card">
+          <div
+            class="w-11 h-11 rounded-2xl bg-teal-400/10 flex items-center justify-center mb-6"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-teal-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-xl tracking-tight mb-3">Built for Scale</h3>
+          <p class="text-slate-300 text-[15px]">
+            The plural form naturally supports multi-location clinics, franchise models, platform
+            businesses, and portfolios of neurotechnology offerings. It feels established and
+            expansive from day one.
+          </p>
+        </div>
+
+        <div class="glass rounded-3xl p-8 benefit-card">
+          <div
+            class="w-11 h-11 rounded-2xl bg-teal-400/10 flex items-center justify-center mb-6"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-teal-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-xl tracking-tight mb-3">Proven Clinical Foundation</h3>
+          <p class="text-slate-300 text-[15px]">
+            Grounded in the same robust science as singular TMS brands: FDA-cleared for
+            depression, OCD, migraines, and smoking cessation with strong real-world response
+            and remission rates where other treatments fail.
+          </p>
+        </div>
+
+        <div class="glass rounded-3xl p-8 benefit-card">
+          <div
+            class="w-11 h-11 rounded-2xl bg-teal-400/10 flex items-center justify-center mb-6"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-teal-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-xl tracking-tight mb-3">Ecosystem Positioning</h3>
+          <p class="text-slate-300 text-[15px]">
+            Perfect for organizations building the broader infrastructure — clinic networks,
+            device + software platforms, referral ecosystems, or research consortia shaping the
+            future of non-invasive brain stimulation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Science -->
+    <section id="science" class="bg-slate-900 border-y border-slate-800">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-20">
+        <div class="grid lg:grid-cols-12 gap-x-12 gap-y-10 items-center">
+          <!-- Left content -->
+          <div class="lg:col-span-7">
+            <div class="uppercase text-teal-400 text-xs font-semibold tracking-[2px] mb-3">
+              GROUNDED IN CLINICAL EVIDENCE
+            </div>
+            <h2 class="section-header tracking-tighter mb-6">
+              Non-invasive. Precise. Scalable.
+            </h2>
+
+            <div class="space-y-6 text-[15.2px] text-slate-300">
+              <p>
+                Transcranial magnetic stimulation (TMS) uses targeted magnetic fields to stimulate
+                nerve cells in brain regions involved in mood regulation. It is FDA-approved and
+                typically recommended when standard treatments such as medication and psychotherapy
+                have not been effective. The plural &ldquo;lodestones&rdquo; evokes multiple precise
+                points of therapeutic magnetic influence — ideal for networks and platforms.
+              </p>
+
+              <div class="grid sm:grid-cols-2 gap-4 pt-2">
+                <div class="flex gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <div>
+                    <span class="font-medium text-white">No surgery. No anesthesia.</span><br />
+                    <span class="text-sm">Outpatient procedure performed in a clinic.</span>
+                  </div>
+                </div>
+                <div class="flex gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <div>
+                    <span class="font-medium text-white">Minimal side effects.</span><br />
+                    <span class="text-sm">Most common: mild scalp discomfort or headache.</span>
+                  </div>
+                </div>
+                <div class="flex gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <div>
+                    <span class="font-medium text-white">FDA-cleared indications.</span><br />
+                    <span class="text-sm">Major depression, OCD, migraines, smoking cessation.</span>
+                  </div>
+                </div>
+                <div class="flex gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <div>
+                    <span class="font-medium text-white">Growing research pipeline.</span><br />
+                    <span class="text-sm">Ongoing studies for epilepsy, anxiety, PTSD, and more.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 inline-flex items-center text-sm text-teal-400 hover:text-teal-300 cursor-pointer">
+              <a href="#acquire" class="font-medium flex items-center gap-x-2">
+                Own the plural brand built for networks and scale
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right visual -->
+          <div class="lg:col-span-5 relative">
+            <div class="rounded-3xl overflow-hidden border border-slate-700 shadow-2xl">
+              <img
+                src={TMS_IMAGE_URL}
+                alt="Patient receiving TMS therapy in a modern clinical setting"
+                class="w-full h-auto object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div
+              class="absolute -bottom-4 -left-4 bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3 text-xs shadow-xl max-w-[210px]"
+            >
+              <div class="font-medium">
+                &ldquo;TMS is one of the fastest growing treatment techniques in mental health.&rdquo;
+              </div>
+              <div class="text-teal-400 text-[10px] mt-1">
+                — Clinical TMS Society &amp; leading providers
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why This Domain -->
+    <section id="why" class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-20">
+      <div class="max-w-2xl mb-12">
+        <div class="text-teal-400 text-xs font-semibold tracking-[2px]">
+          THE STRATEGIC ADVANTAGE
+        </div>
+        <h2 class="section-header tracking-tighter mt-2">
+          Why brainlodestones.com is a portfolio lodestone.
+        </h2>
+        <p class="mt-4 text-lg text-slate-300">
+          The plural form signals multiplicity, foundation, and enduring strength — perfect for
+          organizations building lasting infrastructure in brain stimulation.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div
+          class="benefit-card border border-slate-800 rounded-3xl p-8 hover:border-teal-900/60 transition-colors"
+        >
+          <div class="flex items-center gap-x-3 mb-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-8 h-8 text-teal-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M9.663 17.684a4.002 4.002 0 01-7.326 0M9.663 17.684L12 21m-2.337-3.316l.663-1.316M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a4.002 4.002 0 01-7.326 0"
+              />
+            </svg>
+            <div class="font-semibold text-xl tracking-tight">Naturally Magnetic &amp; Plural</div>
+          </div>
+          <p class="text-slate-300">
+            Evokes multiple precise magnetic points of influence. Ideal for multi-site clinics,
+            platform businesses, or brands representing several complementary innovations in
+            neurotechnology.
+          </p>
+        </div>
+
+        <div
+          class="benefit-card border border-slate-800 rounded-3xl p-8 hover:border-teal-900/60 transition-colors"
+        >
+          <div class="flex items-center gap-x-3 mb-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-8 h-8 text-teal-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <div class="font-semibold text-xl tracking-tight">High-Intent Keyword Power</div>
+          </div>
+          <p class="text-slate-300">
+            Strong &ldquo;brain + magnetic stimulation&rdquo; alignment for SEO and paid
+            acquisition. The plural version captures broader, higher-volume searches around
+            networks, platforms, and comprehensive care.
+          </p>
+        </div>
+
+        <div
+          class="benefit-card border border-slate-800 rounded-3xl p-8 hover:border-teal-900/60 transition-colors"
+        >
+          <div class="flex items-center gap-x-3 mb-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-8 h-8 text-teal-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <div class="font-semibold text-xl tracking-tight">Premium .com Scarcity</div>
+          </div>
+          <p class="text-slate-300">
+            Short, memorable, easy to spell. The plural form is even rarer and more distinctive
+            in the healthtech space — a true portfolio-level asset.
+          </p>
+        </div>
+
+        <div
+          class="benefit-card border border-slate-800 rounded-3xl p-8 hover:border-teal-900/60 transition-colors"
+        >
+          <div class="flex items-center gap-x-3 mb-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-8 h-8 text-teal-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+            <div class="font-semibold text-xl tracking-tight">Versatile for Ecosystems</div>
+          </div>
+          <p class="text-slate-300">
+            Excels for national or regional TMS clinic networks, device + software platforms,
+            multi-modal brain health companies, or organizations offering several
+            stimulation-based therapies.
+          </p>
+        </div>
+
+        <div
+          class="benefit-card border border-slate-800 rounded-3xl p-8 hover:border-teal-900/60 transition-colors"
+        >
+          <div class="flex items-center gap-x-3 mb-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-8 h-8 text-teal-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
+            </svg>
+            <div class="font-semibold text-xl tracking-tight">Built-in Authority &amp; Trust</div>
+          </div>
+          <p class="text-slate-300">
+            Sounds established, serious, and foundational. Perfect when building trust with
+            patients across multiple locations or when raising capital for scaled operations.
+          </p>
+        </div>
+
+        <div
+          class="benefit-card border border-slate-800 rounded-3xl p-8 hover:border-teal-900/60 transition-colors"
+        >
+          <div class="flex items-center gap-x-3 mb-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-8 h-8 text-teal-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M13 10V3L4 14h7v7l9-11h-7z"
+              />
+            </svg>
+            <div class="font-semibold text-xl tracking-tight">Future-Proof for Expansion</div>
+          </div>
+          <p class="text-slate-300">
+            As new indications, delivery methods, and combination therapies emerge, the plural
+            name accommodates growth without rebranding or limiting scope.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Perfect For / Use Cases -->
+    <section id="perfect-for" class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 pb-20">
+      <div class="text-center mb-12">
+        <div class="text-teal-400 text-xs font-semibold tracking-[2px]">IDEAL BRAND FIT</div>
+        <h2 class="section-header tracking-tighter mt-2">
+          Built for category builders and scalers.
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {
+          useCases.map((uc) => (
+            <div
+              class="group rounded-3xl border border-slate-800 p-7 hover:border-teal-900/50 transition-all"
+            >
+              <div class="font-mono text-xs tracking-widest text-teal-400 mb-2">
+                {String(uc.data.order).padStart(2, '0')}
+              </div>
+              <div class="font-semibold text-lg mb-1.5 group-hover:text-teal-400 transition-colors">
+                {uc.data.title}
+              </div>
+              <p class="text-sm text-slate-400">{uc.data.description}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-8 text-center">
+        <p class="text-sm text-slate-400 max-w-md mx-auto">
+          The plural form gives you room to grow while maintaining premium positioning and
+          instant credibility.
+        </p>
+      </div>
+    </section>
+
+    <!-- Brand Visual / Logo Mock -->
+    <section class="border-y border-slate-800 bg-slate-900 py-16">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16">
+        <div class="grid lg:grid-cols-12 gap-x-12 items-center">
+          <div class="lg:col-span-5 mb-10 lg:mb-0">
+            <div class="uppercase text-xs tracking-[2px] text-teal-400 font-semibold mb-3">
+              INSTANT BRAND EQUITY
+            </div>
+            <h3 class="text-4xl font-display tracking-tighter font-semibold leading-none">
+              See the plural brand<br />come to life.
+            </h3>
+            <p class="mt-5 text-slate-300">
+              brainlodestones.com delivers a complete, ownable visual and verbal identity built
+              for scale. Clean, modern, and unmistakably relevant to networks and platforms.
+            </p>
+
+            <div class="mt-8 flex flex-wrap gap-3">
+              <div
+                class="px-4 py-1.5 rounded-2xl bg-slate-800 text-xs font-medium flex items-center gap-x-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3.5 h-3.5 text-teal-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Premium logo suite included</span>
+              </div>
+              <div
+                class="px-4 py-1.5 rounded-2xl bg-slate-800 text-xs font-medium flex items-center gap-x-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3.5 h-3.5 text-teal-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Color system &amp; guidelines</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div
+              class="rounded-3xl overflow-hidden border border-slate-700 bg-white p-10 flex items-center justify-center"
+            >
+              <img
+                src={LOGO_MOCK_URL}
+                alt="Brain Lodestones premium plural logo concept"
+                class="max-h-[170px] w-auto"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acquire / Inquiry Form -->
+    <section id="acquire" class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-20">
+      <div class="max-w-2xl mx-auto text-center mb-10">
+        <div
+          class="inline-block px-4 py-1 rounded-3xl bg-teal-400/10 text-teal-400 text-xs font-semibold tracking-widest mb-4"
+        >
+          SECURE YOUR POSITION
+        </div>
+        <h2 class="section-header tracking-tighter">Ready to own brainlodestones.com?</h2>
+        <p class="mt-4 text-lg text-slate-300">
+          This premium plural domain is available for acquisition. Inquire today for pricing,
+          flexible payment options, and a seamless escrow-protected transfer.
+        </p>
+      </div>
+
+      <div class="max-w-[620px] mx-auto">
+        <div class="glass rounded-3xl p-8 md:p-10 border border-slate-700">
+          <form id="inquiry-form" class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+                  >FULL NAME</label
+                >
+                <input
+                  type="text"
+                  id="full-name"
+                  required
+                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 text-sm placeholder:text-slate-500 outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+                  >EMAIL ADDRESS</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 text-sm placeholder:text-slate-500 outline-none transition-colors"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+                  >PHONE (OPTIONAL)</label
+                >
+                <input
+                  type="tel"
+                  id="phone"
+                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 text-sm placeholder:text-slate-500 outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+                  >INTENDED USE</label
+                >
+                <select
+                  id="intended-use"
+                  required
+                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 text-sm text-white outline-none transition-colors"
+                >
+                  <option value="">Select category...</option>
+                  <option value="Multi-Site TMS Clinic Network"
+                    >Multi-Site TMS / Mental Health Clinic Network</option
+                  >
+                  <option value="Neurotechnology Platform or Device Company"
+                    >Neurotechnology Platform or Device Company</option
+                  >
+                  <option value="Integrated Brain Health / Digital Platform"
+                    >Integrated Brain Health or Digital Platform</option
+                  >
+                  <option value="Research Consortium or Foundation"
+                    >Research Consortium or Foundation</option
+                  >
+                  <option value="Investment / Domain Portfolio"
+                    >Investment or Domain Portfolio</option
+                  >
+                  <option value="Other">Other / Not Disclosed</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+                >MESSAGE OR QUESTIONS</label
+              >
+              <textarea
+                id="message"
+                rows="3"
+                placeholder="Tell us about your vision for brainlodestones.com..."
+                class="form-input w-full resize-y bg-slate-900 border border-slate-700 rounded-3xl px-5 py-4 text-sm placeholder:text-slate-500 outline-none transition-colors"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full mt-2 flex items-center justify-center gap-x-3 bg-white hover:bg-slate-100 active:bg-slate-200 transition-all text-slate-900 font-semibold text-base py-4 rounded-3xl shadow-inner"
+            >
+              <span>Submit Inquiry</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                />
+              </svg>
+            </button>
+
+            <p class="text-center text-[10px] text-slate-500 pt-1">
+              Your information is kept strictly confidential. We respond within 24 hours.
+            </p>
+          </form>
+
+          <!-- Success State -->
+          <div id="form-success" class="hidden text-center py-8">
+            <div
+              class="mx-auto w-16 h-16 rounded-full bg-teal-400/10 flex items-center justify-center mb-6"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8 text-teal-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h4 class="font-semibold text-2xl tracking-tight">
+              Thank you. Your inquiry has been received.
+            </h4>
+            <p class="mt-3 text-slate-300 max-w-xs mx-auto">
+              A member of our acquisitions team will contact you within 24 hours to discuss
+              next steps, pricing, and secure transfer options.
+            </p>
+
+            <button
+              id="reset-form-btn"
+              class="mt-8 text-sm font-medium text-teal-400 hover:text-teal-300 underline underline-offset-4"
+            >
+              Submit another inquiry
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center mt-6 text-xs text-slate-500 flex items-center justify-center gap-x-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-3.5 h-3.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+            />
+          </svg>
+          <span
+            >Secure escrow via Escrow.com or preferred provider · Full transparency · Flexible
+            terms available</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA / Footer Teaser -->
+    <div class="border-t border-slate-800 bg-slate-900 py-9">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+        <p class="text-sm text-slate-400">
+          The infrastructure of brain health innovation is being built right now.<br
+            class="hidden sm:block"
+          />
+          <span class="text-white font-medium">brainlodestones.com</span> is the plural
+          foundation for those leading it.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('inquiry-form');
+  const successMsg = document.getElementById('form-success');
+  const resetBtn = document.getElementById('reset-form-btn');
+
+  form?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn?.innerHTML ?? '';
+    if (submitBtn) {
+      submitBtn.innerHTML = 'Processing...';
+      submitBtn.disabled = true;
+    }
+
+    setTimeout(() => {
+      if (form) form.style.display = 'none';
+      successMsg?.classList.remove('hidden');
+    }, 850);
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    successMsg?.classList.add('hidden');
+    if (form) {
+      form.style.display = 'block';
+      form.reset();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML =
+          '<span>Submit Inquiry</span><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>';
+      }
+    }
+  });
+</script>

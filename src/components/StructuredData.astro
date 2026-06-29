@@ -1,0 +1,100 @@
+---
+import {
+  SITE_URL,
+  SITE_NAME,
+  HERO_IMAGE_URL,
+  ACQUISITION_EMAIL,
+} from '../lib/constants';
+
+const description =
+  'brainlodestones.com — The premium plural .com domain for Transcranial Magnetic Stimulation networks, neurotechnology platforms, and multi-center brain health innovation. Instant authority in the growing TMS ecosystem.';
+
+const webPage = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: `${SITE_NAME} • Premium Domain for TMS Networks & Brain Health Platforms`,
+  description,
+  url: SITE_URL,
+  inLanguage: 'en-US',
+  primaryImageOfPage: {
+    '@type': 'ImageObject',
+    url: HERO_IMAGE_URL,
+    contentUrl: HERO_IMAGE_URL,
+  },
+  about: {
+    '@type': 'Thing',
+    name: 'Transcranial Magnetic Stimulation',
+    description:
+      'Premium domain name asset for TMS clinic networks, neurotechnology platforms, and multi-center brain health innovation.',
+  },
+};
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  email: ACQUISITION_EMAIL,
+  logo: HERO_IMAGE_URL,
+  description,
+};
+
+const product = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'brainlodestones.com domain name',
+  description:
+    'Premium plural .com domain for TMS networks, neurotechnology platforms, and multi-center brain health innovation. A powerful, scalable brand asset.',
+  category: 'Domain Name',
+  offers: {
+    '@type': 'Offer',
+    availability: 'https://schema.org/InStock',
+    price: '14997',
+    priceCurrency: 'USD',
+    seller: {
+      '@type': 'Organization',
+      email: ACQUISITION_EMAIL,
+    },
+    url: `mailto:${ACQUISITION_EMAIL}`,
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: {
+        '@type': 'MonetaryAmount',
+        value: '0.00',
+        currency: 'USD',
+      },
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: {
+          '@type': 'QuantitativeValue',
+          minValue: 0,
+          maxValue: 1,
+          unitCode: 'd',
+        },
+        transitTime: {
+          '@type': 'QuantitativeValue',
+          minValue: 0,
+          maxValue: 0,
+          unitCode: 'd',
+        },
+      },
+      shippingDestination: {
+        '@type': 'DefinedRegion',
+        addressCountry: 'US',
+      },
+    },
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+      returnMethod: 'https://schema.org/ReturnByMail',
+      returnFees: 'https://schema.org/FreeReturn',
+      applicableCountry: 'US',
+      merchantReturnDays: 0,
+    },
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(webPage)} />
+<script type="application/ld+json" set:html={JSON.stringify(organization)} />
+<script type="application/ld+json" set:html={JSON.stringify(product)} />
