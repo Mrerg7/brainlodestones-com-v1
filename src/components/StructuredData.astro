@@ -1,10 +1,15 @@
 ---
 import {
-  SITE_URL,
   SITE_NAME,
   HERO_IMAGE_URL,
   ACQUISITION_EMAIL,
 } from '../lib/constants';
+
+interface Props {
+  canonical: string;
+}
+
+const { canonical } = Astro.props;
 
 const description =
   'brainlodestones.com — The premium plural .com domain for Transcranial Magnetic Stimulation networks, neurotechnology platforms, and multi-center brain health innovation. Instant authority in the growing TMS ecosystem.';
@@ -14,7 +19,7 @@ const webPage = {
   '@type': 'WebPage',
   name: `${SITE_NAME} • Premium Domain for TMS Networks & Brain Health Platforms`,
   description,
-  url: SITE_URL,
+  url: canonical,
   inLanguage: 'en-US',
   primaryImageOfPage: {
     '@type': 'ImageObject',
@@ -33,7 +38,7 @@ const organization = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: SITE_NAME,
-  url: SITE_URL,
+  url: canonical,
   email: ACQUISITION_EMAIL,
   logo: HERO_IMAGE_URL,
   description,

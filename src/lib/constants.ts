@@ -1,5 +1,15 @@
-export const SITE_URL = 'https://brainlodestones.com';
+export const SITE_ORIGIN = 'https://brainlodestones.com';
+/** Canonical homepage URL (trailing slash matches `trailingSlash: 'always'`). */
+export const SITE_URL = `${SITE_ORIGIN}/`;
 export const SITE_NAME = 'brainlodestones.com';
+
+/** Build a normalized canonical URL: apex host, trailing slash, no query/hash. */
+export function getCanonicalUrl(pathname: string): string {
+  let path = pathname || '/';
+  if (!path.startsWith('/')) path = `/${path}`;
+  if (path !== '/' && !path.endsWith('/')) path = `${path}/`;
+  return new URL(path, SITE_ORIGIN).href;
+}
 export const ACQUISITION_EMAIL = 'sales@desertrich.com';
 
 /** Cloudflare Images CDN — hero / OG */
