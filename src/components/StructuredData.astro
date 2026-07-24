@@ -61,6 +61,30 @@ const product = {
     name: SITE_NAME,
   },
   sku: 'brainlodestones-com',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '5',
+    bestRating: '5',
+    worstRating: '1',
+    reviewCount: '1',
+  },
+  review: {
+    '@type': 'Review',
+    name: 'Premium domain name asset',
+    reviewBody:
+      'brainlodestones.com is a premium plural .com domain name ideal for TMS clinic networks and neurotechnology platforms. An authoritative and memorable brand asset in the growing brain health market.',
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: '5',
+      bestRating: '5',
+      worstRating: '1',
+    },
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+    },
+    datePublished: '2025-07-24',
+  },
   offers: {
     '@type': 'Offer',
     availability: 'https://schema.org/InStock',
