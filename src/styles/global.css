@@ -21,15 +21,9 @@
     letter-spacing: -0.025em;
   }
 
-  /* Size domain to container width so it never wraps mid-TLD (e.g. ".co" / "m"). */
-  .domain-title-wrap {
-    container-type: inline-size;
-    container-name: domain-title;
-  }
-
+  /* One-line domain title: scale with viewport (avoid container queries inside flex — they collapse width). */
   .domain-text {
-    /* ~19 glyphs × ~0.55em advance + tracking; /11.2 keeps ".com" on one line */
-    font-size: min(4.75rem, calc(100cqi / 11.2));
+    font-size: clamp(1.35rem, 0.2rem + 4.5vw, 4.5rem);
     line-height: 0.92;
     font-weight: 700;
     letter-spacing: -0.065em;
