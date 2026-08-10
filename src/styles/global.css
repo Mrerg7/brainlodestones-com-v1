@@ -22,10 +22,12 @@
   }
 
   .domain-text {
-    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-size: clamp(1.75rem, 8.5vw, 5.5rem);
     line-height: 0.92;
     font-weight: 700;
     letter-spacing: -0.065em;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     background: linear-gradient(90deg, #ffffff, #e0e7ff);
     -webkit-background-clip: text;
     background-clip: text;
@@ -43,7 +45,13 @@
     background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.75)), var(--hero-image-url);
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: scroll;
+  }
+
+  @media (min-width: 768px) {
+    .hero-bg {
+      background-attachment: fixed;
+    }
   }
 
   .glass {

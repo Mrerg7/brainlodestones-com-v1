@@ -9,9 +9,9 @@ import { acquisitionMailto } from '../lib/constants';
   <div class="max-w-screen-2xl mx-auto px-6">
     <div class="flex items-center justify-between h-20">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-x-2.5" aria-label="brainlodestones.com home">
+      <a href="/" class="flex items-center gap-x-2 min-w-0" aria-label="brainlodestones.com home">
         <div
-          class="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center shadow-inner"
+          class="w-9 h-9 shrink-0 rounded-xl bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center shadow-inner"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -28,9 +28,9 @@ import { acquisitionMailto } from '../lib/constants';
             />
           </svg>
         </div>
-        <div>
-          <span class="font-display text-2xl font-semibold tracking-tighter">brain</span>
-          <span class="font-display text-2xl font-semibold tracking-tighter text-teal-400">lodestones</span>
+        <div class="min-w-0 truncate">
+          <span class="font-display text-lg sm:text-2xl font-semibold tracking-tighter">brain</span>
+          <span class="font-display text-lg sm:text-2xl font-semibold tracking-tighter text-teal-400">lodestones</span>
           <span class="font-mono text-[10px] text-teal-400/70 align-super ml-0.5">.com</span>
         </div>
       </a>
