@@ -21,13 +21,20 @@
     letter-spacing: -0.025em;
   }
 
+  /* Size domain to container width so it never wraps mid-TLD (e.g. ".co" / "m"). */
+  .domain-title-wrap {
+    container-type: inline-size;
+    container-name: domain-title;
+  }
+
   .domain-text {
-    font-size: clamp(1.75rem, 8.5vw, 5.5rem);
+    /* ~19 glyphs × ~0.55em advance + tracking; /11.2 keeps ".com" on one line */
+    font-size: min(4.75rem, calc(100cqi / 11.2));
     line-height: 0.92;
     font-weight: 700;
     letter-spacing: -0.065em;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    white-space: nowrap;
+    max-width: 100%;
     background: linear-gradient(90deg, #ffffff, #e0e7ff);
     -webkit-background-clip: text;
     background-clip: text;
