@@ -1,0 +1,65 @@
+---
+import { SITE_NAME, SITE_ORIGIN, HERO_IMAGE_URL } from '../lib/constants';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  pubDate: Date;
+  author?: string;
+  tags?: string[];
+}
+
+const { title, description, canonical, pubDate, author = SITE_NAME, tags = [] } =
+  Astro.props;
+
+const blogPosting = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  url: canonical,
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonical,
+  },
+  datePublished: pubDate.toISOString(),
+  dateModified: pubDate.toISOString(),
+  inLanguage: 'en-US',
+  author: {
+    '@type': 'Organization',
+    name: author,
+    url: SITE_ORIGIN,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_ORIGIN,
+    logo: {
+      '@type': 'ImageObject',
+      url: HERO_IMAGE_URL,
+    },
+  },
+  image: {
+    '@type': 'ImageObject',
+    url: HERO_IMAGE_URL,
+    width: 1144,
+    height: 768,
+  },
+  keywords: tags.join(', '),
+  articleSection: 'Domain strategy',
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_ORIGIN },
+    { '@type': 'ListItem', position: 2, name: 'Insights', item: `${SITE_ORIGIN}/blog/` },
+    { '@type': 'ListItem', position: 3, name: title, item: canonical },
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(blogPosting)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />

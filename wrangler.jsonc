@@ -13,6 +13,19 @@
     // Serve dist/404.html with HTTP 404 for unknown paths (stops empty-body 404s)
     "not_found_handling": "404-page"
   },
+  // Domain inquiry submissions (POST /api/inquiry)
+  "kv_namespaces": [
+    {
+      "binding": "INQUIRIES",
+      "id": "301cb5dca8354391896fc7daacc78d96"
+    }
+  ],
+  "vars": {
+    // Cloudflare Web Analytics beacon token (public by design).
+    // Leave empty to disable analytics; paste the token from
+    // Cloudflare Dashboard → Analytics & Logs → Web Analytics to enable.
+    "CF_BEACON_TOKEN": ""
+  },
   "observability": {
     "enabled": true
   }

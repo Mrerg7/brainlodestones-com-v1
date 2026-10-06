@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import StructuredData from '../components/StructuredData.astro';
+import ExitIntent from '../components/ExitIntent.astro';
 import { SITE_NAME, HERO_IMAGE_URL, getCanonicalUrl } from '../lib/constants';
 
 interface Props {
@@ -10,8 +11,8 @@ interface Props {
 }
 
 const {
-  title = `${SITE_NAME} • Premium Domain for TMS Networks & Brain Health Platforms`,
-  description = 'Acquire brainlodestones.com — the premium plural .com domain for Transcranial Magnetic Stimulation networks, neurotechnology platforms, and multi-center brain health innovation. Instant authority in the growing TMS ecosystem.',
+  title = 'brainlodestones.com | Premium Domain for Sale | TMS Networks',
+  description = 'Available now: brainlodestones.com — a premium plural .com for TMS clinic networks and neurotech platforms. Escrow-protected transfer, flexible terms. Inquire today.',
   noindex = false,
 } = Astro.props;
 
@@ -27,7 +28,6 @@ const ogImage = HERO_IMAGE_URL;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="keywords" content="TMS domain, Transcranial Magnetic Stimulation, brain lodestones, neurotechnology domain, brain health platform, clinic network domain, premium .com domain" />
     {
       noindex ? (
         <meta name="robots" content="noindex" />
@@ -41,6 +41,7 @@ const ogImage = HERO_IMAGE_URL;
     {!noindex && <link rel="canonical" href={canonical} />}
     <meta name="author" content={SITE_NAME} />
     <meta name="theme-color" content="#0f172a" />
+    <meta name="color-scheme" content="dark" />
     <meta name="google-site-verification" content="bOJbobh47tjbnbrMAMEaA5yS_sui2SDrvgfaI1mITKE" />
 
     <!-- Open Graph -->
@@ -53,8 +54,8 @@ const ogImage = HERO_IMAGE_URL;
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:secure_url" content={ogImage} />
     <meta property="og:image:alt" content="brainlodestones.com — premium TMS network & brain health domain" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="1144" />
+    <meta property="og:image:height" content="768" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -64,18 +65,41 @@ const ogImage = HERO_IMAGE_URL;
     <meta name="twitter:image:alt" content="brainlodestones.com" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Self-hosted fonts: preload the two latin subsets (70 KB total), no third-party CSS -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
+    <link
+      rel="preload"
+      href="/fonts/space-grotesk-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Hero is the LCP element -->
+    <link rel="preload" as="image" href={HERO_IMAGE_URL} fetchpriority="high" />
+
     <link rel="preconnect" href="https://imagedelivery.net" />
 
     {!noindex && <StructuredData canonical={canonical} />}
+
+    <slot name="head" />
   </head>
   <body class="bg-slate-950 text-slate-200 overflow-x-hidden antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-2xl focus:bg-white focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-slate-900"
+    >
+      Skip to content
+    </a>
     <slot />
+    <ExitIntent />
     <script>
       const nav = document.getElementById('nav');
       if (nav) {

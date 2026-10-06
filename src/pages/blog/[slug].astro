@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import BlogPosting from '../../components/BlogPosting.astro';
+import { getCollection, render } from 'astro:content';
+import { getCanonicalUrl } from '../../lib/constants';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const canonical = getCanonicalUrl(Astro.url.pathname);
+const title = `${post.data.title} | brainlodestones.com`;
+const description = post.data.description;
+
+const published = post.data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+
+  <main id="main" class="pt-20">
+    <article class="max-w-3xl mx-auto px-6 md:px-10 pt-14 pb-10">
+      <nav aria-label="Breadcrumb" class="text-xs text-slate-400 mb-8">
+        <ol class="flex flex-wrap items-center gap-x-2">
+          <li><a href="/" class="hover:text-teal-400 transition-colors">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/blog/" class="hover:text-teal-400 transition-colors">Insights</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-slate-300">{post.data.title}</li>
+        </ol>
+      </nav>
+
+      <header>
+        <div class="uppercase text-teal-400 text-xs font-semibold tracking-[2px] mb-4">
+          DOMAIN INSIGHTS
+        </div>
+        <h1 class="font-display text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.1] tracking-tight">
+          {post.data.title}
+        </h1>
+        <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-400">
+          <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>{published}</time>
+          <span class="h-1 w-1 rounded-full bg-slate-600" aria-hidden="true"></span>
+          <span>{post.data.readingMinutes} min read</span>
+          <span class="h-1 w-1 rounded-full bg-slate-600" aria-hidden="true"></span>
+          <span>{post.data.author}</span>
+        </div>
+      </header>
+
+      <div class="mt-9 h-px w-full bg-gradient-to-r from-teal-400/50 via-slate-700 to-transparent" aria-hidden="true"></div>
+
+      <div class="prose-blog mt-8">
+        <Content />
+      </div>
+
+      <div class="mt-12 rounded-3xl border border-teal-400/20 bg-slate-900 p-8 text-center">
+        <h2 class="font-display text-2xl tracking-tight">
+          brainlodestones.com is available for acquisition
+        </h2>
+        <p class="mx-auto mt-3 max-w-md text-sm text-slate-400">
+          Premium plural .com for TMS clinic networks and neurotechnology platforms.
+          Escrow-protected transfer, response within 24 hours.
+        </p>
+        <div class="mt-6 flex flex-col sm:flex-row justify-center gap-3">
+          <a
+            href="/#acquire"
+            class="inline-flex min-h-[52px] items-center justify-center rounded-2xl bg-teal-400 px-7 font-semibold text-slate-950 transition-colors hover:bg-teal-300"
+          >
+            Make an offer
+          </a>
+          <a
+            href="/blog/"
+            class="inline-flex min-h-[52px] items-center justify-center rounded-2xl border border-slate-700 px-7 font-medium text-slate-300 transition-colors hover:border-teal-400/50 hover:text-white"
+          >
+            More insights
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+
+  <Fragment slot="head">
+    <BlogPosting
+      title={post.data.title}
+      description={description}
+      canonical={canonical}
+      pubDate={post.data.pubDate}
+      author={post.data.author}
+      tags={post.data.tags}
+    />
+  </Fragment>
+</BaseLayout>

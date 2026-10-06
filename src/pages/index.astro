@@ -2,28 +2,46 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import StickyCta from '../components/StickyCta.astro';
 import {
   HERO_IMAGE_URL,
   TMS_IMAGE_URL,
   LOGO_MOCK_URL,
+  ACQUISITION_EMAIL,
   acquisitionMailto,
 } from '../lib/constants';
+import { FAQS } from '../lib/faq';
 import { getCollection } from 'astro:content';
 
 const useCases = await getCollection('useCases');
 useCases.sort((a, b) => a.data.order - b.data.order);
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
 ---
 
 <BaseLayout>
   <Nav />
 
-  <main>
+  <main id="main">
     <!-- Hero Section -->
-    <header
-      class="hero-bg min-h-[100dvh] flex items-center relative pt-20"
-      style={`--hero-image-url: url(${HERO_IMAGE_URL});`}
-    >
-      <div class="w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-20">
+    <header class="relative min-h-[100dvh] flex items-center overflow-hidden pt-20">
+      <img
+        src={HERO_IMAGE_URL}
+        alt=""
+        width="1144"
+        height="768"
+        fetchpriority="high"
+        decoding="async"
+        class="absolute inset-0 -z-20 h-full w-full object-cover"
+      />
+      <div
+        class="absolute inset-0 -z-10 bg-gradient-to-b from-slate-950/70 to-slate-950/85"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="relative w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-20">
         <div class="w-full max-w-3xl">
           <!-- Trust badge -->
           <div
@@ -80,27 +98,43 @@ useCases.sort((a, b) => a.data.order - b.data.order);
             </a>
           </div>
 
-          <div class="mt-8 flex items-center gap-x-6 text-sm">
-            <div class="flex items-center gap-x-2 text-teal-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="3"
-                  d="M5 13l4 4L19 7"
-                />
+          <div
+            class="mt-9 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 max-w-xl text-sm text-slate-300"
+          >
+            <div class="flex items-start gap-x-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 text-teal-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
               </svg>
-              <span class="font-medium">Ideal for networks &amp; platforms</span>
+              <span>Escrow.com-protected transfer</span>
             </div>
-            <div class="hidden sm:block w-px h-3.5 bg-white/30"></div>
-            <div class="text-slate-400 text-sm">Escrow-protected acquisition</div>
+            <div class="flex items-start gap-x-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 text-teal-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Clean title &middot; ready to transfer</span>
+            </div>
+            <div class="flex items-start gap-x-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 text-teal-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Reply within 24 hours</span>
+            </div>
+            <div class="flex items-start gap-x-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 text-teal-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Confidential by default</span>
+            </div>
           </div>
+
+          <p class="mt-6 text-sm text-slate-400">
+            Prefer email?
+            <a
+              href={acquisitionMailto('Domain inquiry: brainlodestones.com')}
+              class="text-teal-400 underline underline-offset-4 hover:text-teal-300"
+              >{ACQUISITION_EMAIL}</a
+            >
+          </p>
         </div>
       </div>
 
@@ -372,8 +406,11 @@ useCases.sort((a, b) => a.data.order - b.data.order);
               <img
                 src={TMS_IMAGE_URL}
                 alt="Patient receiving TMS therapy in a modern clinical setting"
+                width="1144"
+                height="768"
                 class="w-full h-auto object-cover"
                 loading="lazy"
+                decoding="async"
               />
             </div>
             <div
@@ -658,12 +695,110 @@ useCases.sort((a, b) => a.data.order - b.data.order);
               <img
                 src={LOGO_MOCK_URL}
                 alt="Brain Lodestones premium plural logo concept"
+                width="515"
+                height="768"
                 class="max-h-[170px] w-auto"
                 loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Buyer FAQ -->
+    <section id="faq" class="border-t border-slate-800 bg-slate-900/60">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-20">
+        <div class="max-w-2xl mb-10">
+          <div class="text-teal-400 text-xs font-semibold tracking-[2px]">BUYER QUESTIONS</div>
+          <h2 class="section-header tracking-tighter mt-2">Everything buyers ask first.</h2>
+          <p class="mt-4 text-lg text-slate-300">
+            Straight answers on availability, escrow, payment terms, and transfer
+            timelines — before you write a single line of your inquiry.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-4 items-start">
+          {
+            FAQS.map((faq) => (
+              <details class="group border border-slate-800 rounded-3xl bg-slate-950/60 transition-colors open:border-teal-900/70">
+                <summary class="flex min-h-[64px] cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-[15px] font-semibold tracking-tight">
+                  <span>{faq.question}</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 shrink-0 text-teal-400 transition-transform group-open:rotate-45"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  </svg>
+                </summary>
+                <p class="px-6 pb-6 -mt-1 text-sm leading-relaxed text-slate-400">{faq.answer}</p>
+              </details>
+            ))
+          }
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            href="/blog/"
+            class="inline-flex min-h-[48px] items-center rounded-2xl border border-slate-700 px-6 text-sm font-medium text-slate-300 transition-colors hover:border-teal-400/50 hover:text-white"
+          >
+            Read the acquisition guides
+          </a>
+          <a
+            href={acquisitionMailto('Question about brainlodestones.com')}
+            class="inline-flex min-h-[48px] items-center rounded-2xl px-6 text-sm font-medium text-teal-400 transition-colors hover:text-teal-300"
+          >
+            Ask a different question
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Domain Insights / internal linking -->
+    <section id="insights" class="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 py-20">
+      <div class="flex flex-wrap items-end justify-between gap-6 mb-10">
+        <div class="max-w-2xl">
+          <div class="text-teal-400 text-xs font-semibold tracking-[2px]">DOMAIN INSIGHTS</div>
+          <h2 class="section-header tracking-tighter mt-2">Buy smarter. Sell faster.</h2>
+        </div>
+        <a
+          href="/blog/"
+          class="inline-flex min-h-[48px] items-center gap-x-2 text-sm font-medium text-teal-400 hover:text-teal-300"
+        >
+          All guides
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          posts.map((post) => (
+            <article class="benefit-card relative border border-slate-800 rounded-3xl p-7 hover:border-teal-900/60 transition-colors">
+              <div class="font-mono text-xs tracking-widest text-teal-400 mb-3">
+                <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>
+                  {post.data.pubDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+              </div>
+              <h3 class="font-semibold text-lg leading-snug tracking-tight">
+                <a href={`/blog/${post.id}/`} class="after:absolute after:inset-0 hover:text-teal-400 transition-colors">
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class="mt-3 text-sm text-slate-400">{post.data.description}</p>
+            </article>
+          ))
+        }
       </div>
     </section>
 
@@ -685,50 +820,69 @@ useCases.sort((a, b) => a.data.order - b.data.order);
       <div class="max-w-[620px] mx-auto">
         <div class="glass rounded-3xl p-8 md:p-10 border border-slate-700">
           <form id="inquiry-form" class="space-y-5">
+            <!-- Honeypot: humans never see this -->
+            <input
+              type="text"
+              name="website"
+              id="website"
+              tabindex="-1"
+              autocomplete="off"
+              class="hidden"
+              aria-hidden="true"
+            />
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+                <label for="full-name" class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
                   >FULL NAME</label
                 >
                 <input
                   type="text"
                   id="full-name"
+                  name="name"
                   required
-                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 text-sm placeholder:text-slate-500 outline-none transition-colors"
+                  autocomplete="name"
+                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 placeholder:text-slate-500 outline-none transition-colors"
                 />
               </div>
               <div>
-                <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+                <label for="email" class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
                   >EMAIL ADDRESS</label
                 >
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   required
-                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 text-sm placeholder:text-slate-500 outline-none transition-colors"
+                  autocomplete="email"
+                  inputmode="email"
+                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 placeholder:text-slate-500 outline-none transition-colors"
                 />
               </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+                <label for="phone" class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
                   >PHONE (OPTIONAL)</label
                 >
                 <input
                   type="tel"
                   id="phone"
-                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 text-sm placeholder:text-slate-500 outline-none transition-colors"
+                  name="phone"
+                  autocomplete="tel"
+                  inputmode="tel"
+                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 placeholder:text-slate-500 outline-none transition-colors"
                 />
               </div>
               <div>
-                <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+                <label for="intended-use" class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
                   >INTENDED USE</label
                 >
                 <select
                   id="intended-use"
+                  name="intendedUse"
                   required
-                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 text-sm text-white outline-none transition-colors"
+                  class="form-input w-full bg-slate-900 border border-slate-700 rounded-2xl px-5 py-3.5 text-white outline-none transition-colors"
                 >
                   <option value="">Select category...</option>
                   <option value="Multi-Site TMS Clinic Network"
@@ -752,20 +906,28 @@ useCases.sort((a, b) => a.data.order - b.data.order);
             </div>
 
             <div>
-              <label class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
+              <label for="message" class="block text-xs font-medium tracking-wider text-slate-400 mb-1.5"
                 >MESSAGE OR QUESTIONS</label
               >
               <textarea
                 id="message"
+                name="message"
                 rows="3"
                 placeholder="Tell us about your vision for brainlodestones.com..."
-                class="form-input w-full resize-y bg-slate-900 border border-slate-700 rounded-3xl px-5 py-4 text-sm placeholder:text-slate-500 outline-none transition-colors"
+                class="form-input w-full resize-y bg-slate-900 border border-slate-700 rounded-3xl px-5 py-4 placeholder:text-slate-500 outline-none transition-colors"
               ></textarea>
             </div>
 
+            <p
+              id="form-error"
+              class="hidden rounded-2xl border border-rose-400/30 bg-rose-400/10 px-4 py-3 text-sm text-rose-200"
+              role="alert"
+            >
+            </p>
+
             <button
               type="submit"
-              class="w-full mt-2 flex items-center justify-center gap-x-3 bg-white hover:bg-slate-100 active:bg-slate-200 transition-all text-slate-900 font-semibold text-base py-4 rounded-3xl shadow-inner"
+              class="w-full mt-2 min-h-[52px] flex items-center justify-center gap-x-3 bg-white hover:bg-slate-100 active:bg-slate-200 transition-all text-slate-900 font-semibold text-base py-4 rounded-3xl shadow-inner disabled:opacity-60"
             >
               <span>Submit Inquiry</span>
               <svg
@@ -784,7 +946,7 @@ useCases.sort((a, b) => a.data.order - b.data.order);
               </svg>
             </button>
 
-            <p class="text-center text-[10px] text-slate-500 pt-1">
+            <p class="text-center text-[10px] text-slate-400 pt-1">
               Your information is kept strictly confidential. We respond within 24 hours.
             </p>
           </form>
@@ -804,9 +966,9 @@ useCases.sort((a, b) => a.data.order - b.data.order);
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h4 class="font-semibold text-2xl tracking-tight">
+            <h3 class="font-semibold text-2xl tracking-tight">
               Thank you. Your inquiry has been received.
-            </h4>
+            </h3>
             <p class="mt-3 text-slate-300 max-w-xs mx-auto">
               A member of our acquisitions team will contact you within 24 hours to discuss
               next steps, pricing, and secure transfer options.
@@ -821,7 +983,7 @@ useCases.sort((a, b) => a.data.order - b.data.order);
           </div>
         </div>
 
-        <div class="text-center mt-6 text-xs text-slate-500 flex items-center justify-center gap-x-2">
+        <div class="text-center mt-6 text-xs text-slate-400 flex items-center justify-center gap-x-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="w-3.5 h-3.5"
@@ -858,40 +1020,73 @@ useCases.sort((a, b) => a.data.order - b.data.order);
     </div>
   </main>
 
-  <Footer />
-</BaseLayout>
+  <div class="h-20 lg:hidden" aria-hidden="true"></div>
 
-<script>
-  const form = document.getElementById('inquiry-form');
+  <StickyCta />
+  <Footer />
+
+  <script>
+  const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
   const successMsg = document.getElementById('form-success');
   const resetBtn = document.getElementById('reset-form-btn');
+  const errorEl = document.getElementById('form-error');
+  const honeypot = document.getElementById('website') as HTMLInputElement | null;
+  const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]') ?? null;
+  const originalButtonHtml = submitBtn?.innerHTML ?? 'Submit Inquiry';
 
-  form?.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn?.innerHTML ?? '';
-    if (submitBtn) {
-      submitBtn.innerHTML = 'Processing...';
-      submitBtn.disabled = true;
-    }
+  const field = (id: string) => document.getElementById(id);
 
-    setTimeout(() => {
-      if (form) form.style.display = 'none';
+  const setIdle = (busy: boolean) => {
+    if (!submitBtn) return;
+    submitBtn.disabled = busy;
+    submitBtn.innerHTML = busy ? 'Sending…' : originalButtonHtml;
+  };
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form) return;
+    errorEl?.classList.add('hidden');
+    setIdle(true);
+
+    try {
+      const response = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'form',
+          name: (field('full-name') as HTMLInputElement | null)?.value ?? '',
+          email: (field('email') as HTMLInputElement | null)?.value ?? '',
+          phone: (field('phone') as HTMLInputElement | null)?.value ?? '',
+          intendedUse: (field('intended-use') as HTMLSelectElement | null)?.value ?? '',
+          message: (field('message') as HTMLTextAreaElement | null)?.value ?? '',
+          website: honeypot?.value ?? '',
+        }),
+      });
+
+      if (!response.ok) throw new Error(`request failed: ${response.status}`);
+
+      form.style.display = 'none';
       successMsg?.classList.remove('hidden');
-    }, 850);
+      successMsg?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch {
+      if (errorEl) {
+        errorEl.innerHTML =
+          'We could not send that just now. Please email ' +
+          '<a class="underline underline-offset-4" href="mailto:sales@desertrich.com?subject=Domain%20inquiry%3A%20brainlodestones.com">sales@desertrich.com</a> ' +
+          'and we will reply within 24 hours.';
+        errorEl.classList.remove('hidden');
+      }
+      setIdle(false);
+    }
   });
 
   resetBtn?.addEventListener('click', () => {
+    if (!form) return;
     successMsg?.classList.add('hidden');
-    if (form) {
-      form.style.display = 'block';
-      form.reset();
-      const submitBtn = form.querySelector('button[type="submit"]');
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML =
-          '<span>Submit Inquiry</span><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>';
-      }
-    }
+    form.style.display = 'block';
+    form.reset();
+    setIdle(false);
+    (field('full-name') as HTMLInputElement | null)?.focus();
   });
 </script>
+</BaseLayout>

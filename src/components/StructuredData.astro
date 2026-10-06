@@ -1,9 +1,11 @@
 ---
 import {
   SITE_NAME,
+  SITE_URL,
   HERO_IMAGE_URL,
   ACQUISITION_EMAIL,
 } from '../lib/constants';
+import { FAQS } from '../lib/faq';
 
 interface Props {
   canonical: string;
@@ -17,7 +19,7 @@ const description =
 const webPage = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: `${SITE_NAME} • Premium Domain for TMS Networks & Brain Health Platforms`,
+  name: 'brainlodestones.com | Premium Domain for Sale | TMS Networks',
   description,
   url: canonical,
   inLanguage: 'en-US',
@@ -25,6 +27,8 @@ const webPage = {
     '@type': 'ImageObject',
     url: HERO_IMAGE_URL,
     contentUrl: HERO_IMAGE_URL,
+    width: 1144,
+    height: 768,
   },
   about: {
     '@type': 'Thing',
@@ -32,6 +36,15 @@ const webPage = {
     description:
       'Premium domain name asset for TMS clinic networks, neurotechnology platforms, and multi-center brain health innovation.',
   },
+};
+
+const webSite = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: SITE_URL,
+  inLanguage: 'en-US',
+  description,
 };
 
 const organization = {
@@ -42,6 +55,20 @@ const organization = {
   email: ACQUISITION_EMAIL,
   logo: HERO_IMAGE_URL,
   description,
+};
+
+const faqPage = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  url: `${canonical}#faq`,
+  mainEntity: FAQS.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
 };
 
 const product = {
@@ -90,11 +117,13 @@ const product = {
     availability: 'https://schema.org/InStock',
     price: '14997',
     priceCurrency: 'USD',
+    url: canonical,
     seller: {
       '@type': 'Organization',
+      name: SITE_NAME,
       email: ACQUISITION_EMAIL,
+      url: canonical,
     },
-    url: `mailto:${ACQUISITION_EMAIL}`,
     shippingDetails: {
       '@type': 'OfferShippingDetails',
       shippingRate: {
@@ -135,5 +164,7 @@ const product = {
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(webPage)} />
+<script type="application/ld+json" set:html={JSON.stringify(webSite)} />
 <script type="application/ld+json" set:html={JSON.stringify(organization)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqPage)} />
 <script type="application/ld+json" set:html={JSON.stringify(product)} />

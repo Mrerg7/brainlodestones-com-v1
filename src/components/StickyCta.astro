@@ -1,0 +1,25 @@
+---
+import { acquisitionMailto } from '../lib/constants';
+---
+
+<!-- Sticky conversion bar: phones/tablets only (hidden from lg up) -->
+<div
+  class="fixed inset-x-0 bottom-0 z-30 border-t border-slate-800 bg-slate-950/95 px-4 py-3 backdrop-blur-lg lg:hidden"
+  role="region"
+  aria-label="Quick inquiry"
+>
+  <div class="flex items-center gap-3">
+    <a
+      href="#acquire"
+      class="flex min-h-[48px] flex-1 items-center justify-center rounded-2xl bg-teal-400 px-5 text-sm font-semibold text-slate-950 transition-colors hover:bg-teal-300"
+    >
+      Make an offer
+    </a>
+    <a
+      href={acquisitionMailto('Domain inquiry: brainlodestones.com')}
+      class="flex min-h-[48px] items-center justify-center rounded-2xl border border-slate-700 px-5 text-sm font-medium text-slate-300 transition-colors hover:border-teal-400/50 hover:text-white"
+    >
+      Email
+    </a>
+  </div>
+</div>
