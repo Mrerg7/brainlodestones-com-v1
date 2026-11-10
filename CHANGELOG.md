@@ -2,6 +2,32 @@
 
 All notable changes to brainlodestones.com are documented here.
 
+## 2026-11-10 — Fix Search Console "Page with redirect"
+
+### Fixed
+
+- **Single-hop absolute redirects for every index alias** — the Worker now
+  collapses `/blog/index.html`, `/blog/index`, `/blog/index/`, and the same
+  patterns under other sections, to the trailing-slash directory in the same 301
+  that enforces apex HTTPS. Previously only root `/index.html` was handled, so
+  nested `index.html` URLs fell through to Assets and returned a relative
+  `307 Location: /path/` (often as a second hop after www→apex).
+- **No more redirect→404 chains** — trailing-slash / host normalization only 301s
+  when the destination asset exists. Unknown paths like `/home` or `/about` now
+  return a real noindex 404 instead of `301 → /home/` then 404 (GSC "Page with
+  redirect").
+- **`/favicon.ico` returns 200** — rewritten to the SVG favicon instead of a 301
+  to `/favicon.svg`. Removes a high-frequency crawler redirect from coverage.
+- **Host redirects scoped to the real site** — http→https and www→apex only apply
+  on `brainlodestones.com` / `www.brainlodestones.com`, so localhost and
+  workers.dev previews are no longer bounced to production.
+
+### Infrastructure
+
+- Removed `public/_redirects` rules that duplicated Worker logic with relative
+  Locations (`/index.html`, `/favicon.ico`). Canonicalization lives entirely in
+  `src/worker.ts`.
+
 ## 2026-10-06 — Comprehensive optimization pass (SEO, CRO, performance, mobile, security)
 
 Deployed as Worker version `8b9bc64d-ec94-473b-86a7-7d9100426756`.

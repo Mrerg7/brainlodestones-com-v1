@@ -1,23 +1,30 @@
 /**
  * Edge handler for brainlodestones.com.
  *
- * 1. Canonical host enforcement — http/www/index.html/no-trailing-slash variants 301 to
- *    https://brainlodestones.com/ in a single hop; /404* paths return a real 404 (noindex)
- *    instead of redirect loops that GSC reports as Not found (404).
+ * 1. Canonical host enforcement — http/www/index.html variants 301 to
+ *    https://brainlodestones.com/... in a single hop. Trailing-slash redirects only
+ *    fire when the destination page exists (avoids redirect→404 that GSC reports as
+ *    "Page with redirect"). /404* paths return a real 404 (noindex).
  * 2. POST /api/inquiry — validates and stores domain inquiries in Workers KV.
- * 3. Injects the Cloudflare Web Analytics beacon into HTML when CF_BEACON_TOKEN is set.
- * 4. Adds baseline security headers (incl. HSTS) to every response.
+ * 3. /favicon.ico is rewritten to /favicon.svg (200) instead of a redirect.
+ * 4. Injects the Cloudflare Web Analytics beacon into HTML when CF_BEACON_TOKEN is set.
+ * 5. Adds baseline security headers (incl. HSTS) to every response.
  */
 const CANONICAL_ORIGIN = 'https://brainlodestones.com';
 const CANONICAL_HOST = 'brainlodestones.com';
 const NOT_FOUND_PATHS = new Set(['/404', '/404/', '/404.html']);
 const INQUIRY_PATH = '/api/inquiry';
+const FAVICON_ICO_PATH = '/favicon.ico';
+const FAVICON_SVG_PATH = '/favicon.svg';
 
 const MAX_BODY_BYTES = 10_000;
 const RATE_LIMIT_WINDOW_MS = 10_000;
 const INQUIRY_TTL_SECONDS = 60 * 60 * 24 * 365;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const BEACON_TOKEN_PATTERN = /^[A-Za-z0-9_-]{8,}$/;
+const INDEX_HTML_SUFFIX = /\/index\.html\/?$/i;
+/** Matches trailing /index or /index/ (Assets can soft-serve these as the parent page). */
+const INDEX_ALIAS_SUFFIX = /\/index\/?$/i;
 
 const SECURITY_HEADERS: Record<string, string> = {
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
@@ -61,32 +68,78 @@ function harden(response: Response): Response {
   });
 }
 
-function getCanonicalRedirect(request: Request): string | null {
+function collapseIndexAliases(pathname: string): string {
+  let path = pathname;
+  if (INDEX_HTML_SUFFIX.test(path)) {
+    path = path.replace(INDEX_HTML_SUFFIX, '/');
+  }
+  // /blog/index and /blog/index/ soft-serve the parent page under Assets —
+  // collapse them to the canonical directory so GSC does not see extras.
+  if (INDEX_ALIAS_SUFFIX.test(path)) {
+    path = path.replace(INDEX_ALIAS_SUFFIX, '/');
+  }
+  if (path.length === 0) path = '/';
+  return path;
+}
+
+function needsTrailingSlash(pathname: string): boolean {
+  return (
+    !NOT_FOUND_PATHS.has(pathname) &&
+    pathname !== '/' &&
+    pathname !== INQUIRY_PATH &&
+    pathname !== FAVICON_ICO_PATH &&
+    !pathname.endsWith('/') &&
+    !/\.\w+$/.test(pathname)
+  );
+}
+
+type CanonicalPlan = {
+  /** Fully normalized canonical URL (apex https, no index.html, trailing slash). */
+  canonical: URL;
+  /** True when host or protocol differs from the canonical origin. */
+  hostChanged: boolean;
+  /** True when /index.html was collapsed into a directory path. */
+  indexCollapsed: boolean;
+  /** True when a trailing slash was appended to an extensionless path. */
+  slashAdded: boolean;
+};
+
+function planCanonical(request: Request): CanonicalPlan {
   const url = new URL(request.url);
-  const canonical = new URL(url.pathname + url.search, CANONICAL_ORIGIN);
-  let needsRedirect = false;
+  const hostname = url.hostname.toLowerCase();
+  const isSiteHost =
+    hostname === CANONICAL_HOST || hostname === `www.${CANONICAL_HOST}`;
+  // Only force https/apex for the real site hosts — leave localhost and
+  // workers.dev previews alone so local/dev URLs stay usable.
+  const hostChanged =
+    hostname === `www.${CANONICAL_HOST}` || (isSiteHost && url.protocol === 'http:');
 
-  if (url.protocol === 'http:' || url.hostname.toLowerCase() === `www.${CANONICAL_HOST}`) {
-    needsRedirect = true;
-  }
+  // Site hosts always normalize onto the public apex origin. Localhost and
+  // workers.dev keep their own origin so path-only redirects stay on-preview.
+  const origin = isSiteHost ? CANONICAL_ORIGIN : url.origin;
+  const canonical = new URL(url.pathname + url.search, origin);
+  const beforeIndex = canonical.pathname;
+  canonical.pathname = collapseIndexAliases(beforeIndex);
+  const indexCollapsed = canonical.pathname !== beforeIndex;
 
-  if (canonical.pathname === '/index.html' || canonical.pathname === '/index.html/') {
-    canonical.pathname = '/';
-    needsRedirect = true;
-  }
-
-  if (
-    !NOT_FOUND_PATHS.has(canonical.pathname) &&
-    canonical.pathname !== '/' &&
-    canonical.pathname !== INQUIRY_PATH &&
-    !canonical.pathname.endsWith('/') &&
-    !/\.\w+$/.test(canonical.pathname)
-  ) {
+  let slashAdded = false;
+  if (needsTrailingSlash(canonical.pathname)) {
     canonical.pathname += '/';
-    needsRedirect = true;
+    slashAdded = true;
   }
 
-  return needsRedirect ? canonical.toString() : null;
+  return { canonical, hostChanged, indexCollapsed, slashAdded };
+}
+
+async function assetExists(env: Env, absoluteUrl: string, request: Request): Promise<boolean> {
+  try {
+    const response = await env.ASSETS.fetch(new Request(absoluteUrl, request));
+    return response.status !== 404;
+  } catch (error) {
+    logError('asset_exists_probe_failed', error);
+    // On probe failure, allow the redirect so real pages stay reachable.
+    return true;
+  }
 }
 
 async function notFoundResponse(request: Request, env: Env): Promise<Response> {
@@ -102,6 +155,23 @@ async function notFoundResponse(request: Request, env: Env): Promise<Response> {
         'X-Robots-Tag': 'noindex',
         'Cache-Control': 'no-store',
       },
+    }),
+  );
+}
+
+async function faviconResponse(request: Request, env: Env): Promise<Response> {
+  const url = new URL(request.url);
+  const assetResponse = await env.ASSETS.fetch(
+    new Request(new URL(FAVICON_SVG_PATH, url.origin), request),
+  );
+  const headers = new Headers(assetResponse.headers);
+  headers.set('Content-Type', 'image/svg+xml; charset=utf-8');
+  headers.set('Cache-Control', 'public, max-age=86400');
+  return harden(
+    new Response(assetResponse.body, {
+      status: assetResponse.status,
+      statusText: assetResponse.statusText,
+      headers,
     }),
   );
 }
@@ -259,9 +329,29 @@ export default {
       return notFoundResponse(request, env);
     }
 
-    const redirectUrl = getCanonicalRedirect(request);
-    if (redirectUrl) {
-      return redirect(redirectUrl);
+    // Serve favicon.ico as the SVG without a redirect (stops GSC "Page with redirect").
+    if (url.pathname === FAVICON_ICO_PATH) {
+      const plan = planCanonical(request);
+      if (plan.hostChanged) {
+        return redirect(new URL(FAVICON_ICO_PATH, CANONICAL_ORIGIN).toString());
+      }
+      return faviconResponse(request, env);
+    }
+
+    const plan = planCanonical(request);
+    const needsRedirect = plan.hostChanged || plan.indexCollapsed || plan.slashAdded;
+
+    if (needsRedirect) {
+      // Never 301 into a 404 — unknown paths return noindex 404 in one response.
+      const destinationIsPage =
+        plan.canonical.pathname === '/' || plan.canonical.pathname.endsWith('/');
+      if (destinationIsPage && plan.canonical.pathname !== '/') {
+        const exists = await assetExists(env, plan.canonical.toString(), request);
+        if (!exists) {
+          return notFoundResponse(request, env);
+        }
+      }
+      return redirect(plan.canonical.toString());
     }
 
     let response = await env.ASSETS.fetch(request);
